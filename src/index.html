@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="containerr">
+        <div class="content" style="width: 100%;
+        padding: 20px;
+        min-height: 100vh;
+        background: linear-gradient(to right, #e33597, #e65757);">
+            <div class="container">
+                <div class="card">
+                    <!-- HEADER -->
+                    <div class="card-header text-center ">
+                        <h3 class="text-info font-weight-bold">Quản lý học viên nghiên cứu và giảng dạy</h3>
+                    </div>
+                    <!-- BODY -->
+                    <div class="card-body">
+                        <div class="d-flex mb-2 justify-content-between">
+                            <div class="form-group w-25">
+                                <select class="custom-select" id="categoryTable">
+                                    <option value="">Tất cả</option>
+                                    <option value="hs">Học sinh</option>
+                                    <option value="nv">Nhân viên</option>
+                                    <option value="kh">Khách hàng</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success" style="display: none;" id="btnThem" data-toggle="modal"
+                                    data-target="#myModal">Thêm mới</button>
+                            </div>
+                        </div>
+                        <div class="table-responsive" style="display: none;" id="tableHs">
+                            <table class="table table-bordered table-sortable">
+                                <thead class="bg-light text-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Họ tên</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Email</th>
+                                        <th id="thMath">Toán</th>
+                                        <th id="thPhysics">Lý</th>
+                                        <th id="thChemistry">Hóa</th>
+                                        <th id="thAverageGrade">Điểm TB</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ListHs"></tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive" style="display: none;" id="tableNv">
+
+                            <table class="table table-bordered table-sortable">
+                                <thead class="bg-light text-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Họ tên</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Email</th>
+                                        <th>Số ngày làm việc</th>
+                                        <th>Tổng lương</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ListNv"></tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive" style="display: none;" id="tableKh">
+
+                            <table class="table table-bordered table-sortable">
+                                <thead class="bg-light text-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Họ tên</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Email</th>
+                                        <th>Tên công ty</th>
+                                        <th>Hóa đơn</th>
+                                        <th>Đánh giá</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ListKh"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal fade -->
+    <div class="modal fade" id="myModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <!-- học sinh -->
+            <div class="modal-content" style="display: none;" id="modalSinhVien">
+                <header class="head-form mb-0">
+                    <h2 style="text-align: center; padding-top: 30px;" id="header-title">Học Sinh</h2>
+                </header>
+                <div class="modal-body">
+                    <form role="form" id="personForm">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input type="text" name="tk" id="id" class="form-control input-sm" placeholder="ID">
+                            </div>
+                            <span class="sp-thongbao" id="tbId"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-address-book"></i></span>
+                                </div>
+                                <input type="name" name="name" id="fullName" class="form-control input-sm"
+                                    placeholder="Họ và tên">
+                            </div>
+                            <span class="sp-thongbao" id="tbTen"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                </div>
+                                <input type="email" name="email" id="email" class="form-control input-sm"
+                                    placeholder="Email">
+                            </div>
+
+                            <span class="sp-thongbao" id="tbEmail"></span>
+                        </div>
+                        <div class="form-group form__item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-solid fa-house-user"></i></span>
+                                </div>
+                                <input type="text" id="address" class="form-control" placeholder="Địa chỉ">
+                            </div>
+                            <span class="spNoti" id="tbAddres"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-calculator"></i></span>
+                                </div>
+                                <input type="number" name="diemToan" id="math" min="0" max="10" step="0.5"
+                                    class="form-control input-sm" placeholder="Điểm toán">
+                            </div>
+                            <span class="sp-thongbao" id="tbMath"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-book"></i></span>
+                                </div>
+                                <input type="number" name="diemLy" id="physics" min="0" max="10" step="0.5"
+                                    class="form-control input-sm" placeholder="Điểm Lý">
+                            </div>
+                            <span class="sp-thongbao" id="tbPhysics"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-vial"></i></span>
+                                </div>
+                                <input type="number" id="chemistry" class="form-control" min="0" max="10" step="0.5"
+                                    placeholder="Điểm Hóa">
+                            </div>
+                            <span class="spNoti" id="tbChemistry"></span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" id="modal-footer">
+                    <button id="btnAdd" type="button" class="btn btn-success" onclick="createStudent()"
+                        data-target="#exampleModal">Thêm người
+                        dùng</button>
+                    <button id="btnCapNhat" style="display: none;" type="button" data-dismiss="modal" class="btn btn-success"
+                        onclick="updateStudent()" data-target="#exampleModal">Cập
+                        nhật</button>
+                    <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div>
+
+            </div>
+            <!-- nhân viên -->
+            <div class="modal-content" style="display: none;" id="modalEmployee">
+                <header class="head-form mb-0">
+                    <h2 style="text-align: center; padding-top: 30px;" id="header-title">Nhân viên</h2>
+                </header>
+                <div class="modal-body">
+                    <form role="form" id="personForm">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input type="text" name="tk" id="id2" class="form-control input-sm" placeholder="ID">
+                            </div>
+                            <span class="sp-thongbao" id="tbId2"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-address-book"></i></span>
+                                </div>
+                                <input type="name" name="name" id="fullName2" class="form-control input-sm"
+                                    placeholder="Họ và tên">
+                            </div>
+                            <span class="sp-thongbao" id="tbTen2"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                </div>
+                                <input type="email" name="email" id="email2" class="form-control input-sm"
+                                    placeholder="Email">
+                            </div>
+
+                            <span class="sp-thongbao" id="tbEmail2"></span>
+                        </div>
+                        <div class="form-group form__item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-solid fa-house-user"></i></span>
+                                </div>
+                                <input type="text" id="address2" class="form-control" placeholder="Địa chỉ">
+                            </div>
+                            <span class="spNoti" id="tbAddress2"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-star-of-david"></i></i></i></span>
+                                </div>
+                                <input type="number" name="diemToan" id="days" class="form-control input-sm"
+                                    placeholder="Số ngày làm">
+                            </div>
+                            <span class="sp-thongbao" id="tbDays"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-star-of-david"></i></i></span>
+                                </div>
+                                <input type="number" name="" id="baseSalary" class="form-control input-sm"
+                                    placeholder="Lương một ngày">
+                            </div>
+                            <span class="sp-thongbao" id="tbBaseSalary"></span>
+                        </div>
+                </div>
+                <div class="modal-footer" id="modal-footer">
+                    <button id="btnAdd" type="button" class="btn btn-success" onclick="createEmployee()">Thêm người
+                        dùng</button>
+                    <button id="btnCapNhat" type="button" class="btn btn-success" onclick="">Cập
+                        nhật</button>
+                    <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div>
+
+            </div>
+            <div class="modal-content" style="display: none;" id="modalCustomer">
+                <header class="head-form mb-0">
+                    <h2 style="text-align: center; padding-top: 30px;" id="header-title">Khách Hàng</h2>
+                </header>
+                <div class="modal-body">
+                    <form role="form" id="personForm">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                </div>
+                                <input type="text" name="tk" id="id3" class="form-control input-sm" placeholder="ID">
+                            </div>
+                            <span class="sp-thongbao" id="tbId3"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-address-book"></i></span>
+                                </div>
+                                <input type="name" name="name" id="fullName3" class="form-control input-sm"
+                                    placeholder="Họ và tên">
+                            </div>
+                            <span class="sp-thongbao" id="tbTen3"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                </div>
+                                <input type="email" name="email" id="email3" class="form-control input-sm"
+                                    placeholder="Email">
+                            </div>
+
+                            <span class="sp-thongbao" id="tbEmail3"></span>
+                        </div>
+                        <div class="form-group form__item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-solid fa-house-user"></i></span>
+                                </div>
+                                <input type="text" id="address3" class="form-control" placeholder="Địa chỉ">
+                            </div>
+                            <span class="spNoti" id="tbAddress3"></span>
+                        </div>
+
+
+                        <div class="form-group form__item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-solid fa-building"></i></span>
+                                </div>
+                                <input type="text" id="company" class="form-control" placeholder="Tên công ty">
+                            </div>
+                            <span class="spNoti" id="tbCompany"></span>
+                        </div>
+                        <div class="form-group form__item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-solid fa-file-invoice"></i></span>
+                                </div>
+                                <input type="number" id="invoice" class="form-control"
+                                    placeholder="Trị giá hóa đơn (VND)">
+                            </div>
+                            <span class="spNoti" id="tbInvoice"></span>
+                        </div>
+                        <div class="form-group form__item">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa-solid fa-comment"></i></span>
+                                </div>
+                                <input type="text" id="comment" class="form-control" placeholder="Đánh giá">
+                            </div>
+                            <span class="spNoti" id="tbComment"></span>
+                    </form>
+                </div>
+
+
+                <div class="modal-footer" id="modal-footer">
+                    <button id="btnAdd" type="button" class="btn btn-success" onclick="createCustomer()">Thêm người
+                        dùng</button>
+                    <button id="btnCapNhat" type="button" class="btn btn-success" onclick="">Cập
+                        nhật</button>
+                    <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <script type="module" src="./js/index.js"></script>
+</body>
+
+</html>
