@@ -60,6 +60,8 @@ getElee("categoryTable").onchange = () => {
 // Hiển thị danh sách Học sinh
 function renderStudent(student) {
     let html = student.reduce((result, student) => {
+        if(!(student instanceof Student)) return result
+
         return (result +
             `
             <tr>
@@ -86,6 +88,7 @@ function renderStudent(student) {
 // Hiển thị danh sách Nhân viên
 function renderEmployee(employee) {
     let html = employee.reduce((result, employee) => {
+        if(!(employee instanceof Employee)) return result
         return (result +
             `
             <tr>
@@ -96,7 +99,7 @@ function renderEmployee(employee) {
                 <td>${employee.days}</td>
                 <td>${employee.totalSalary()}</td>
                 <td>
-                    <button class="btn btn-primary my-1" data-toggle="modal" data-target="#personModal" data-id="${employee.id}" title="cập nhật"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button class="btn btn-primary my-1" data-toggle="modal" data-target="#personModal" onclick="selectEmployee('${employee.id}')" title="cập nhật"><i class="fa-regular fa-pen-to-square"></i></button>
                     <button class="btn btn-danger my-1" onclick="deleteEmployee('${employee.id}')" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
                 </td>
             </tr>
@@ -110,6 +113,7 @@ function renderEmployee(employee) {
 // Hiển thị danh sách khách hàng
 function renderCustomer(customer) {
     let html = customer.reduce((result, customer) => {
+        if(!(customer instanceof Customer)) return result
         return (result +
             `
             <tr>
@@ -121,7 +125,7 @@ function renderCustomer(customer) {
                 <td>${customer.invoice}</td>
                 <td>${customer.comment}</td>
                 <td>
-                    <button class="btn btn-primary my-1" data-toggle="modal" data-target="#personModal" data-id="${customer.id}" title="Cập nhật"><i class="fa-regular fa-pen-to-square"></i></button>
+                    <button class="btn btn-primary my-1" data-toggle="modal" data-target="#personModal" onclick="selectCustomer('${customer.id}')" title="Cập nhật"><i class="fa-regular fa-pen-to-square"></i></button>
                     <button class="btn btn-danger my-1" onclick="deleteCustomer('${customer.id}')" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
                 </td>
             </tr>
@@ -149,7 +153,8 @@ window.createStudent = function createStudent() {
     renderStudent(ListPerson);
 
     resetForm()
-    // $('#exampleModal').modal('hide')
+    
+    $('#exampleModal').modal('hide')
 }
 // Thêm nhân viên
 window.createEmployee = function createEmployee() {
@@ -163,7 +168,6 @@ window.createEmployee = function createEmployee() {
     const employee = new Employee(id, fullName, address, email, days, baseSalary);
 
     ListPerson.push(employee);
-
     renderEmployee(ListPerson);
 
     resetForm()
@@ -246,18 +250,37 @@ window.selectStudent = function selectStudent(studentId) {
 
     $("#myModal").modal("show");
 }
-
+// fill thông tin employee lên form
 window.selectEmployee = function selectEmployee(employeeId) {
     let selectEmployee = ListPerson.find((employee) => {
         return employee.id === employeeId
     })
 
-    getEle("##modalEmployee #id2").value = selectEmployee.id;
+    getEle("#modalEmployee #id2").value = selectEmployee.id;
     getEle("#modalEmployee #fullName2").value = selectEmployee.fullName;
-    getEle("##modalEmployee #email2").value = selectEmployee.email;
+    getEle("#modalEmployee #email2").value = selectEmployee.email;
     getEle("#modalEmployee #address2").value = selectEmployee.address;
     getEle("#days").value = selectStudent.days;
     getEle("#baseSalary").value = selectStudent.baseSalary;
+    getEle("#modalEmployee #btnCapNhat").style.display = "block"
+    getEle("#modalEmployee #btnAdd").disabled = true;
+
+    $("#myModal").modal("show");
+
+}
+// fill thông tin customer lên form
+window.selectCustomer = function selectCustomer(customerId) {
+    let selectCustomer = ListPerson.find((customer) => {
+        return customer.id === customerId
+    })
+    getEle("#modalCustomer #id3").value = selectCustomer.id;
+    getEle("#modalCustomer #fullName3").value = selectCustomer.fullName;
+    getEle("#modalCustomer #email3").value = selectCustomer.email;
+    getEle("#modalCustomer #address3").value = selectCustomer.address;
+    getEle("#days").value = selectCustomer.days;
+    getEle("#baseSalary").value = selectCustomer.baseSalary;
+    getEle("#modalCustomer #btnCapNhat").style.display = "block"
+    getEle("#modalCustomer #btnAdd").disabled = true;
 
     $("#myModal").modal("show");
 
@@ -284,6 +307,53 @@ window.updateStudent = function updateStudent() {
 
     resetForm()
 
+    getEle("#btnCapNhat").style.display = "none"
 }
 
 // cập nhật sinh viên
+window.updateEmployee = function updateEmployee() {
+    let id = getEle("#modalEmployee #id2").value;
+    let fullName = getEle("#modalEmployee #fullName2").value;
+    let email = getEle("#modalEmployee #email2").value;
+    let address = getEle("#modalEmployee #address2").value;
+    let days = getEle("#days").value;
+    let baseSalary = getEle("#baseSalary").value;
+
+    const employee = new Employee(id, fullName, address, email, days, baseSalary);
+
+    let index = ListPerson.findIndex((employee) => {
+        return employee.id === id
+    })
+
+    ListPerson[index] = employee;
+
+    renderEmployee(ListPerson);
+
+    resetForm()
+
+    getEle("#btnCapNhat").style.display = "none"
+}
+// cập nhật khách hàng
+window.updateCustomer = function updateCustomer() {
+    let id = getEle("#modalCustomer #id3").value;
+    let fullName = getEle("#modalCustomer #fullName3").value;
+    let email = getEle("#modalCustomer #email3").value;
+    let address = getEle("#modalCustomer #address3").value;
+    let company = getEle("#company").value;
+    let invoice = getEle("#invoice").value;
+    let comment = getEle("#comment").value;
+
+    const customer = new Customer(id, fullName, address, email, company, invoice, comment)
+
+    let index = ListPerson.findIndex((customer) => {
+        return customer.id == id
+    })
+
+    ListPerson[index]  = customer;
+
+    renderCustomer(ListPerson);
+
+    resetForm()
+
+    getEle("#btnCapNhat").style.display = "none"
+}
