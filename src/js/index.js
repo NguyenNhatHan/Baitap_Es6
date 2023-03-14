@@ -1,5 +1,6 @@
 import getEle from "./helper.js";
 import { Person, Student, Employee, Customer } from './person.js'
+import {validateStudent, validateEmployee} from './validation.js'
 
 // // helper
 // function getEle(selector) {
@@ -18,6 +19,7 @@ getElee("categoryTable").onchange = () => {
             getElee("modalEmployee").style.display = "none";
             getElee("modalCustomer").style.display = "none";
             getElee("btnThem").style.display = "block";
+            getEle("#btnSapxep").style.display = "block";
             getElee("tableHs").style.display = "block";
             getElee("tableNv").style.display = "none";
             getElee("tableKh").style.display = "none";
@@ -32,6 +34,7 @@ getElee("categoryTable").onchange = () => {
             getElee("tableHs").style.display = "none";
             getElee("tableNv").style.display = "block";
             getElee("tableKh").style.display = "none";
+            getEle("#btnSapxep").style.display = "block";
             break;
         }
         case "kh": {
@@ -42,6 +45,7 @@ getElee("categoryTable").onchange = () => {
             getElee("tableHs").style.display = "none";
             getElee("tableNv").style.display = "none";
             getElee("tableKh").style.display = "block";
+            getEle("#btnSapxep").style.display = "block";
             break;
         }
         case "": {
@@ -55,12 +59,28 @@ getElee("categoryTable").onchange = () => {
             break;
     }
 }
-
+getEle("#btnThem").addEventListener("click", () => {
+    getEle("#modal-footer1").innerHTML = `
+        <button id="btnAdd" type="button" class="btn btn-success" onclick="createStudent()"
+        data-target="#exampleModal">Thêm</button>
+        <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+    `
+    getEle("#modal-footer2").innerHTML = `
+        <button id="btnAdd" type="button" class="btn btn-success" onclick="createEmployee()"
+        data-target="#exampleModal">Thêm</button>
+        <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+    `
+    getEle("#modal-footer3").innerHTML = `
+        <button id="btnAdd" type="button" class="btn btn-success" onclick="createCustomer()"
+        data-target="#exampleModal">Thêm</button>
+        <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+    `
+})
 
 // Hiển thị danh sách Học sinh
 function renderStudent(student) {
     let html = student.reduce((result, student) => {
-        if(!(student instanceof Student)) return result
+        if (!(student instanceof Student)) return result
 
         return (result +
             `
@@ -88,7 +108,7 @@ function renderStudent(student) {
 // Hiển thị danh sách Nhân viên
 function renderEmployee(employee) {
     let html = employee.reduce((result, employee) => {
-        if(!(employee instanceof Employee)) return result
+        if (!(employee instanceof Employee)) return result
         return (result +
             `
             <tr>
@@ -113,7 +133,7 @@ function renderEmployee(employee) {
 // Hiển thị danh sách khách hàng
 function renderCustomer(customer) {
     let html = customer.reduce((result, customer) => {
-        if(!(customer instanceof Customer)) return result
+        if (!(customer instanceof Customer)) return result
         return (result +
             `
             <tr>
@@ -146,6 +166,11 @@ window.createStudent = function createStudent() {
     let physics = getEle("#physics").value
     let chemistry = getEle("#chemistry").value
 
+    let isValid = validateStudent()
+    if (!isValid) {
+        return;
+    }
+
     const student = new Student(id, fullName, address, email, math, physics, chemistry);
 
     ListPerson.push(student);
@@ -153,8 +178,8 @@ window.createStudent = function createStudent() {
     renderStudent(ListPerson);
 
     resetForm()
-    
-    $('#exampleModal').modal('hide')
+
+    $('#myModal').modal('hide')
 }
 // Thêm nhân viên
 window.createEmployee = function createEmployee() {
@@ -165,12 +190,20 @@ window.createEmployee = function createEmployee() {
     let days = getEle("#days").value;
     let baseSalary = getEle("#baseSalary").value;
 
+    let isValid = validateEmployee()
+    if (!isValid) {
+        return;
+    }
+
     const employee = new Employee(id, fullName, address, email, days, baseSalary);
 
     ListPerson.push(employee);
     renderEmployee(ListPerson);
 
     resetForm()
+
+    $('#exampleModal').modal('hide')
+
 }
 // Thêm khách hàng
 window.createCustomer = function createCustomer() {
@@ -204,7 +237,6 @@ function resetForm() {
     getEle("#company").value = ""
     getEle("#invoice").value = ""
     getEle("#comment").value = ""
-    getEle("#btnAdd").disabled = false;
 }
 
 // xóa học sin theo id
@@ -245,9 +277,12 @@ window.selectStudent = function selectStudent(studentId) {
     getEle("#math").value = selectStudent.math;
     getEle("#physics").value = selectStudent.physics;
     getEle("#chemistry").value = selectStudent.chemistry;
-    getEle("#btnCapNhat").style.display = "block"
-    getEle("#btnAdd").disabled = true;
-
+    getEle("#modal-footer1").innerHTML = `
+        <button id="btnCapNhat" type="button" data-dismiss="modal"
+        class="btn btn-success" onclick="updateStudent()" data-target="#exampleModal">Cập
+        nhật</button>
+        <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+    `
     $("#myModal").modal("show");
 }
 // fill thông tin employee lên form
@@ -262,8 +297,13 @@ window.selectEmployee = function selectEmployee(employeeId) {
     getEle("#modalEmployee #address2").value = selectEmployee.address;
     getEle("#days").value = selectStudent.days;
     getEle("#baseSalary").value = selectStudent.baseSalary;
-    getEle("#modalEmployee #btnCapNhat").style.display = "block"
-    getEle("#modalEmployee #btnAdd").disabled = true;
+
+    getEle("#modal-footer2").innerHTML = `
+        <button id="btnCapNhat" type="button" data-dismiss="modal"
+        class="btn btn-success" onclick="updateEmployee()" data-target="#exampleModal">Cập
+        nhật</button>
+        <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+    `
 
     $("#myModal").modal("show");
 
@@ -279,8 +319,13 @@ window.selectCustomer = function selectCustomer(customerId) {
     getEle("#modalCustomer #address3").value = selectCustomer.address;
     getEle("#days").value = selectCustomer.days;
     getEle("#baseSalary").value = selectCustomer.baseSalary;
-    getEle("#modalCustomer #btnCapNhat").style.display = "block"
-    getEle("#modalCustomer #btnAdd").disabled = true;
+
+    getEle("#modal-footer3").innerHTML = `
+        <button id="btnCapNhat" type="button" data-dismiss="modal"
+        class="btn btn-success" onclick="updateCustomer()" data-target="#exampleModal">Cập
+        nhật</button>
+        <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+    `
 
     $("#myModal").modal("show");
 
@@ -307,7 +352,7 @@ window.updateStudent = function updateStudent() {
 
     resetForm()
 
-    getEle("#btnCapNhat").style.display = "none"
+    // getEle("#btnCapNhat").style.display = "none"
 }
 
 // cập nhật sinh viên
@@ -318,7 +363,6 @@ window.updateEmployee = function updateEmployee() {
     let address = getEle("#modalEmployee #address2").value;
     let days = getEle("#days").value;
     let baseSalary = getEle("#baseSalary").value;
-
     const employee = new Employee(id, fullName, address, email, days, baseSalary);
 
     let index = ListPerson.findIndex((employee) => {
@@ -331,7 +375,7 @@ window.updateEmployee = function updateEmployee() {
 
     resetForm()
 
-    getEle("#btnCapNhat").style.display = "none"
+    // getEle("#btnCapNhat").style.display = "none"
 }
 // cập nhật khách hàng
 window.updateCustomer = function updateCustomer() {
@@ -349,11 +393,18 @@ window.updateCustomer = function updateCustomer() {
         return customer.id == id
     })
 
-    ListPerson[index]  = customer;
+    ListPerson[index] = customer;
 
     renderCustomer(ListPerson);
 
     resetForm()
 
-    getEle("#btnCapNhat").style.display = "none"
+    // getEle("#btnCapNhat").style.display = "none"
+}
+
+window.arrangeList = function arrangeList(){
+    ListPerson.fullName.sort(function(a, b) {return a - b})
+    console.log(ListPerson.fullName)
+
+    renderStudent(ListPerson)
 }

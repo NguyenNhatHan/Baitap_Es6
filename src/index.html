@@ -39,6 +39,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <button class="btn btn-dark" style="display: none; margin-bottom: 5px;" id="btnSapxep"
+                                onclick="arrangeList()"    data-target="#myModal">sắp xếp</button>
                                 <button class="btn btn-success" style="display: none;" id="btnThem" data-toggle="modal"
                                     data-target="#myModal">Thêm mới</button>
                             </div>
@@ -180,14 +182,13 @@
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer" id="modal-footer">
-                    <button id="btnAdd" type="button" class="btn btn-success" onclick="createStudent()"
-                        data-target="#exampleModal">Thêm người
-                        dùng</button>
-                    <button id="btnCapNhat" style="display: none;" type="button" data-dismiss="modal"
+                <div class="modal-footer" id="modal-footer1">
+                    <!-- <button id="btnAdd" type="button" class="btn btn-success" onclick="createStudent()"
+                        data-target="#exampleModal">Thêm</button> -->
+                    <!-- <button id="btnCapNhat" style="display: none;" type="button" data-dismiss="modal"
                         class="btn btn-success" onclick="updateStudent()" data-target="#exampleModal">Cập
-                        nhật</button>
-                    <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                        nhật</button> -->
+                    <!-- <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button> -->
                 </div>
 
             </div>
@@ -260,16 +261,17 @@
                             <span class="sp-thongbao" id="tbBaseSalary"></span>
                         </div>
                 </div>
-                <div class="modal-footer" id="modal-footer">
-                    <button id="btnAdd" type="button" class="btn btn-success" onclick="createEmployee()">Thêm người
+                <div class="modal-footer" id="modal-footer2">
+                    <!-- <button id="btnAdd2" type="button" class="btn btn-success" onclick="createEmployee()">Thêm người
                         dùng</button>
-                    <button id="btnCapNhat" type="button" style="display: none;" data-dismiss="modal"
+                    <button id="btnCapNhat2" type="button" style="display: none;" data-dismiss="modal"
                         class="btn btn-success" onclick="updateEmployee()">Cập
                         nhật</button>
-                    <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button> -->
                 </div>
 
             </div>
+            <!-- khasch  hafng  -->
             <div class="modal-content" style="display: none;" id="modalCustomer">
                 <header class="head-form mb-0">
                     <h2 style="text-align: center; padding-top: 30px;" id="header-title">Khách Hàng</h2>
@@ -348,7 +350,7 @@
                 </div>
 
 
-                <div class="modal-footer" id="modal-footer">
+                <div class="modal-footer" id="modal-footer3">
                     <button id="btnAdd" type="button" class="btn btn-success" onclick="createCustomer()">Thêm người
                         dùng</button>
                     <button id="btnCapNhat" style="display: none;" data-dismiss="modal" type="button"
