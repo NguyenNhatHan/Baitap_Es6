@@ -2,12 +2,7 @@ import getEle from "./helper.js";
 import { Person, Student, Employee, Customer } from './person.js'
 import { validateStudent, validateEmployee, validateCustomer } from './validation.js'
 
-// // helper
-// function getEle(selector) {
-//     return document.querySelector(selector);
-// }
 
-//
 let ListPerson = [];
 
 const getElee = (id) => document.getElementById(id);
@@ -19,12 +14,16 @@ getElee("categoryTable").onchange = () => {
             getElee("modalEmployee").style.display = "none";
             getElee("modalCustomer").style.display = "none";
             getElee("btnThem").style.display = "block";
-            getEle("#btnSapxep").style.display = "block";
+            // getEle("#btnSapxep").style.display = "block";
             getElee("tableHs").style.display = "block";
             getElee("tableNv").style.display = "none";
             getElee("tableKh").style.display = "none";
-            getEle("#btnSapxep2").style.display = "none"
-            getEle("#btnSapxep3").style.display = "none"
+            // getEle("#btnSapxep2").style.display = "none"
+            // getEle("#btnSapxep3").style.display = "none"
+            getElee("sapxep").innerHTML = `
+                <button class="btn btn-dark" style="margin-bottom: 5px;" id="btnSapxep"
+                onclick="arrangeList(${listSudent})"    data-target="#myModal">sắp xếp</button>
+            `
 
             break;
         }
@@ -236,6 +235,9 @@ window.createCustomer = function createCustomer() {
     renderCustomer(ListPerson);
 
     resetForm()
+
+    $('#myModal').modal('hide')
+
 }
 // reset form
 function resetForm() {
@@ -317,8 +319,8 @@ window.selectEmployee = function selectEmployee(employeeId) {
     getEle("#modalEmployee #fullName2").value = selectEmployee.fullName;
     getEle("#modalEmployee #email2").value = selectEmployee.email;
     getEle("#modalEmployee #address2").value = selectEmployee.address;
-    getEle("#days").value = selectStudent.days;
-    getEle("#baseSalary").value = selectStudent.baseSalary;
+    getEle("#days").value = selectEmployee.days;
+    getEle("#baseSalary").value = selectEmployee.baseSalary;
 
     getEle("#modal-footer2").innerHTML = `
         <button id="btnCapNhat" type="button" data-dismiss="modal"
@@ -339,9 +341,9 @@ window.selectCustomer = function selectCustomer(customerId) {
     getEle("#modalCustomer #fullName3").value = selectCustomer.fullName;
     getEle("#modalCustomer #email3").value = selectCustomer.email;
     getEle("#modalCustomer #address3").value = selectCustomer.address;
-    getEle("#days").value = selectCustomer.days;
-    getEle("#baseSalary").value = selectCustomer.baseSalary;
-
+    getEle("#company").value = selectCustomer.company;
+    getEle("#invoice").value = selectCustomer.invoice;
+    getEle("#comment").value = selectCustomer.comment;
     getEle("#modal-footer3").innerHTML = `
         <button id="btnCapNhat" type="button" data-dismiss="modal"
         class="btn btn-success" onclick="updateCustomer()" data-target="#exampleModal">Cập
