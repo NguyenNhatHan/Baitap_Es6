@@ -1,6 +1,6 @@
 import getEle from "./helper.js";
 import { Person, Student, Employee, Customer } from './person.js'
-import {validateStudent, validateEmployee} from './validation.js'
+import { validateStudent, validateEmployee, validateCustomer } from './validation.js'
 
 // // helper
 // function getEle(selector) {
@@ -23,6 +23,8 @@ getElee("categoryTable").onchange = () => {
             getElee("tableHs").style.display = "block";
             getElee("tableNv").style.display = "none";
             getElee("tableKh").style.display = "none";
+            getEle("#btnSapxep2").style.display = "none"
+            getEle("#btnSapxep3").style.display = "none"
 
             break;
         }
@@ -34,7 +36,9 @@ getElee("categoryTable").onchange = () => {
             getElee("tableHs").style.display = "none";
             getElee("tableNv").style.display = "block";
             getElee("tableKh").style.display = "none";
-            getEle("#btnSapxep").style.display = "block";
+            getEle("#btnSapxep2").style.display = "block";
+            getEle("#btnSapxep").style.display = "none"
+            getEle("#btnSapxep3").style.display = "none"
             break;
         }
         case "kh": {
@@ -45,7 +49,9 @@ getElee("categoryTable").onchange = () => {
             getElee("tableHs").style.display = "none";
             getElee("tableNv").style.display = "none";
             getElee("tableKh").style.display = "block";
-            getEle("#btnSapxep").style.display = "block";
+            getEle("#btnSapxep3").style.display = "block";
+            getEle("#btnSapxep2").style.display = "none"
+            getEle("#btnSapxep").style.display = "none"
             break;
         }
         case "": {
@@ -53,6 +59,9 @@ getElee("categoryTable").onchange = () => {
             getElee("tableHs").style.display = "none";
             getElee("tableNv").style.display = "none";
             getElee("tableKh").style.display = "none";
+            getEle("#btnSapxep2").style.display = "none";
+            getEle("#btnSapxep").style.display = "none"
+            getEle("#btnSapxep3").style.display = "none"
             break;
         }
         default:
@@ -202,7 +211,7 @@ window.createEmployee = function createEmployee() {
 
     resetForm()
 
-    $('#exampleModal').modal('hide')
+    $('#myModal').modal('hide')
 
 }
 // Thêm khách hàng
@@ -214,6 +223,11 @@ window.createCustomer = function createCustomer() {
     let company = getEle("#company").value;
     let invoice = getEle("#invoice").value;
     let comment = getEle("#comment").value;
+
+    let isValid = validateCustomer()
+    if (!isValid) {
+        return;
+    }
 
     const customer = new Customer(id, fullName, address, email, company, invoice, comment)
 
@@ -237,6 +251,14 @@ function resetForm() {
     getEle("#company").value = ""
     getEle("#invoice").value = ""
     getEle("#comment").value = ""
+    getEle("#modalEmployee #id2").value = "";
+    getEle("#modalEmployee #fullName2").value = "";
+    getEle("#modalEmployee #email2").value = "";
+    getEle("#modalEmployee #address2").value = "";
+    getEle("#modalCustomer #id3").value = "";
+    getEle("#modalCustomer #fullName3").value = "";
+    getEle("#modalCustomer #email3").value = "";
+    getEle("#modalCustomer #address3").value = "";
 }
 
 // xóa học sin theo id
@@ -340,6 +362,11 @@ window.updateStudent = function updateStudent() {
     let physics = getEle("#physics").value;
     let chemistry = getEle("#chemistry").value;
 
+    let isValid = validateStudent()
+    if (!isValid) {
+        return;
+    }
+
     const student = new Student(id, fullName, address, email, math, physics, chemistry);
 
     let index = ListPerson.findIndex((student) => {
@@ -363,6 +390,12 @@ window.updateEmployee = function updateEmployee() {
     let address = getEle("#modalEmployee #address2").value;
     let days = getEle("#days").value;
     let baseSalary = getEle("#baseSalary").value;
+
+    let isValid = validateEmployee()
+    if (!isValid) {
+        return;
+    }
+
     const employee = new Employee(id, fullName, address, email, days, baseSalary);
 
     let index = ListPerson.findIndex((employee) => {
@@ -387,6 +420,12 @@ window.updateCustomer = function updateCustomer() {
     let invoice = getEle("#invoice").value;
     let comment = getEle("#comment").value;
 
+    let isValid = validateCustomer()
+    if (!isValid) {
+        return;
+    }
+
+
     const customer = new Customer(id, fullName, address, email, company, invoice, comment)
 
     let index = ListPerson.findIndex((customer) => {
@@ -402,9 +441,27 @@ window.updateCustomer = function updateCustomer() {
     // getEle("#btnCapNhat").style.display = "none"
 }
 
-window.arrangeList = function arrangeList(){
-    ListPerson.fullName.sort(function(a, b) {return a - b})
-    console.log(ListPerson.fullName)
+window.arrangeList = function arrangeList(listSudent) {
+    listSudent.sort(function (a, b) {
+        return a.fullName - b.fullName;
+    });
 
-    renderStudent(ListPerson)
-}
+    renderStudent(ListPerson);
+    // renderEmployee(ListPerson);
+    // renderCustomer(ListPerson);
+};
+// window.arrangeList = function arrangeList() {
+//     ListPerson.sort((a, b) =>
+//         a.fullName > b.fullName ? 1 : b.fullName > a.fullName ? -1 : 0
+//     );
+
+//     renderEmployee(ListPerson);
+// };
+// window.arrangeList = function arrangeList() {
+//     ListPerson.sort((a, b) =>
+//         a.fullName > b.fullName ? 1 : b.fullName > a.fullName ? -1 : 0
+//     );
+
+//     renderCustomer(ListPerson);
+// };
+
