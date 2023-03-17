@@ -14,17 +14,12 @@ getElee("categoryTable").onchange = () => {
             getElee("modalEmployee").style.display = "none";
             getElee("modalCustomer").style.display = "none";
             getElee("btnThem").style.display = "block";
-            // getEle("#btnSapxep").style.display = "block";
             getElee("tableHs").style.display = "block";
             getElee("tableNv").style.display = "none";
             getElee("tableKh").style.display = "none";
-            // getEle("#btnSapxep2").style.display = "none"
-            // getEle("#btnSapxep3").style.display = "none"
-            getElee("sapxep").innerHTML = `
-                <button class="btn btn-dark" style="margin-bottom: 5px;" id="btnSapxep"
-                onclick="arrangeList(${listSudent})"    data-target="#myModal">sắp xếp</button>
-            `
-
+            getElee("btnSapxep1").style.display = "block";
+            getElee("btnSapxep2").style.display = "none";
+            getElee("btnSapxep3").style.display = "none";
             break;
         }
         case "nv": {
@@ -35,9 +30,9 @@ getElee("categoryTable").onchange = () => {
             getElee("tableHs").style.display = "none";
             getElee("tableNv").style.display = "block";
             getElee("tableKh").style.display = "none";
-            getEle("#btnSapxep2").style.display = "block";
-            getEle("#btnSapxep").style.display = "none"
-            getEle("#btnSapxep3").style.display = "none"
+            getElee("btnSapxep1").style.display = "none";
+            getElee("btnSapxep2").style.display = "block";
+            getElee("btnSapxep3").style.display = "none";
             break;
         }
         case "kh": {
@@ -48,9 +43,9 @@ getElee("categoryTable").onchange = () => {
             getElee("tableHs").style.display = "none";
             getElee("tableNv").style.display = "none";
             getElee("tableKh").style.display = "block";
-            getEle("#btnSapxep3").style.display = "block";
-            getEle("#btnSapxep2").style.display = "none"
-            getEle("#btnSapxep").style.display = "none"
+            getElee("btnSapxep1").style.display = "none";
+            getElee("btnSapxep2").style.display = "none";
+            getElee("btnSapxep3").style.display = "block";
             break;
         }
         case "": {
@@ -58,9 +53,9 @@ getElee("categoryTable").onchange = () => {
             getElee("tableHs").style.display = "none";
             getElee("tableNv").style.display = "none";
             getElee("tableKh").style.display = "none";
-            getEle("#btnSapxep2").style.display = "none";
-            getEle("#btnSapxep").style.display = "none"
-            getEle("#btnSapxep3").style.display = "none"
+            getElee("btnSapxep1").style.display = "none";
+            getElee("btnSapxep2").style.display = "none";
+            getElee("btnSapxep3").style.display = "none";
             break;
         }
         default:
@@ -302,7 +297,7 @@ window.selectStudent = function selectStudent(studentId) {
     getEle("#physics").value = selectStudent.physics;
     getEle("#chemistry").value = selectStudent.chemistry;
     getEle("#modal-footer1").innerHTML = `
-        <button id="btnCapNhat" type="button" data-dismiss="modal"
+        <button id="btnCapNhat" type="button"
         class="btn btn-success" onclick="updateStudent()" data-target="#exampleModal">Cập
         nhật</button>
         <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
@@ -323,7 +318,7 @@ window.selectEmployee = function selectEmployee(employeeId) {
     getEle("#baseSalary").value = selectEmployee.baseSalary;
 
     getEle("#modal-footer2").innerHTML = `
-        <button id="btnCapNhat" type="button" data-dismiss="modal"
+        <button id="btnCapNhat" type="button"
         class="btn btn-success" onclick="updateEmployee()" data-target="#exampleModal">Cập
         nhật</button>
         <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
@@ -345,7 +340,7 @@ window.selectCustomer = function selectCustomer(customerId) {
     getEle("#invoice").value = selectCustomer.invoice;
     getEle("#comment").value = selectCustomer.comment;
     getEle("#modal-footer3").innerHTML = `
-        <button id="btnCapNhat" type="button" data-dismiss="modal"
+        <button id="btnCapNhat" type="button" 
         class="btn btn-success" onclick="updateCustomer()" data-target="#exampleModal">Cập
         nhật</button>
         <button id="btnDong" type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
@@ -381,7 +376,8 @@ window.updateStudent = function updateStudent() {
 
     resetForm()
 
-    // getEle("#btnCapNhat").style.display = "none"
+    $('#myModal').modal('hide')
+
 }
 
 // cập nhật sinh viên
@@ -410,7 +406,8 @@ window.updateEmployee = function updateEmployee() {
 
     resetForm()
 
-    // getEle("#btnCapNhat").style.display = "none"
+    $('#myModal').modal('hide')
+
 }
 // cập nhật khách hàng
 window.updateCustomer = function updateCustomer() {
@@ -440,30 +437,31 @@ window.updateCustomer = function updateCustomer() {
 
     resetForm()
 
-    // getEle("#btnCapNhat").style.display = "none"
+    $('#myModal').modal('hide')
+
 }
-
-window.arrangeList = function arrangeList(listSudent) {
-    listSudent.sort(function (a, b) {
-        return a.fullName - b.fullName;
+  //  Hàm SORT
+  function sortJSON(arr, key, asc = true) {
+    return arr.sort((a, b) => {
+      let x = a[key];
+      let y = b[key];
+      if (asc) {
+        return x < y ? -1 : x > y ? 1 : 0;
+      } else {
+        return x > y ? -1 : x < y ? 1 : 0;
+      }
     });
-
-    renderStudent(ListPerson);
-    // renderEmployee(ListPerson);
-    // renderCustomer(ListPerson);
-};
-// window.arrangeList = function arrangeList() {
-//     ListPerson.sort((a, b) =>
-//         a.fullName > b.fullName ? 1 : b.fullName > a.fullName ? -1 : 0
-//     );
-
-//     renderEmployee(ListPerson);
-// };
-// window.arrangeList = function arrangeList() {
-//     ListPerson.sort((a, b) =>
-//         a.fullName > b.fullName ? 1 : b.fullName > a.fullName ? -1 : 0
-//     );
-
-//     renderCustomer(ListPerson);
-// };
-
+  }
+  
+  window.listStudent = function listStudent(){
+    let html = sortJSON( ListPerson, "fullName", true);
+    renderStudent(html);
+  }
+  window.listEmloyee = function listEmloyee(){
+    let html = sortJSON( ListPerson, "fullName", true);
+    renderEmployee(html);
+  }
+  window.listCustomer = function listCustomer(){
+    let html = sortJSON( ListPerson, "fullName", true);
+    renderCustomer(html);
+  }
